@@ -80,7 +80,7 @@ A arquitetura segue uma estrutura inspirada em **Clean Architecture**, onde cada
 docker compose up -d
 ```
 
-⚠️ **IMPORTANTE:** Na primeira vez, o Docker irá baixar todas as imagens necessárias (.NET SDK, runtime, RabbitMQ, etc). Este processo pode levar vários minutos.
+**IMPORTANTE:** Na primeira vez, o Docker irá baixar todas as imagens necessárias (.NET SDK, runtime, RabbitMQ, etc). Este processo pode levar vários minutos.
 
 ---
 
