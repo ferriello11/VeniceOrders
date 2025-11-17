@@ -62,10 +62,7 @@ A arquitetura segue uma estrutura inspirada em **Clean Architecture**, onde cada
 
 ### Bibliotecas de apoio
 - xUnit  
-- Moq  
 - Microsoft.NET.Test.Sdk  
-- AutoMapper (se usado)  
-- Newtonsoft.Json ou System.Text.Json  
 
 ---
 
