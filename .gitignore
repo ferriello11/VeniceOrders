@@ -1,0 +1,91 @@
+### .NET ###
+bin/
+obj/
+launchSettings.json
+
+# Arquivos de build
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+*.tlog
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.svclog
+*.pdb
+
+# Arquivos de Testes
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Pacotes NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Arquivos gerados automaticamente
+Generated/
+Generated/**
+
+# Ignore do Rider
+.idea/
+
+### VS Code ###
+.vscode/
+.history/
+*.code-workspace
+
+### Sistema operacional ###
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+### Docker ###
+# Pastas de volumes
+docker-data/
+docker-volume/
+volumes/
+
+# Arquivos ignorados
+*.pid
+*.pid.lock
+
+# Build do Docker
+**/Dockerfile.*
+docker-compose.override.yml
+
+### Ambiente ###
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+
+### Caches ###
+# Dotnet
+.cache/
+# Yarn / npm
+node_modules/
+
+### Outros ###
+*.swp
+*.swo
+*.tmp
+*.temp

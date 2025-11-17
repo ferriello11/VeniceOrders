@@ -1,0 +1,29 @@
+name: Run .NET Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar .NET 7
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restaurar dependências
+        run: dotnet restore Venice.Orders.sln
+
+      - name: Compilar
+        run: dotnet build Venice.Orders.sln --no-restore --configuration Release
+
+      - name: Rodar testes
+        run: dotnet test Venice.Orders.sln --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"

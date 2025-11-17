@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "GE5O/Z/lWrBRGB7fE3TG+Kx9wAhrFsG3gn8iBnmoVImXmA15",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "vhosts": [
+    { "name": "/" }
+  ],
+  "exchanges": [
+    {
+      "name": "venice.exchange",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true
+    }
+  ],
+  "queues": [
+    {
+      "name": "orders.events.queue",
+      "vhost": "/",
+      "durable": true
+    }
+  ],
+  "bindings": [
+    {
+      "source": "venice.exchange",
+      "vhost": "/",
+      "destination": "orders.events.queue",
+      "destination_type": "queue",
+      "routing_key": ""
+    }
+  ]
+}

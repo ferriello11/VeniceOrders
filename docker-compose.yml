@@ -1,0 +1,92 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    container_name: venice-api
+    env_file:
+      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      SQLSERVER_CONNECTIONSTRING: ${SQLSERVER_CONNECTIONSTRING}
+      MONGO_CONNECTIONSTRING: ${MONGO_CONNECTIONSTRING}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      REDIS_CONFIGURATION: ${REDIS_CONFIGURATION}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASS: ${RABBITMQ_PASS}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+      - mongo
+      - redis
+      - rabbitmq
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: venice-sql
+    env_file:
+      - .env
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SQLSERVER_SA_PASSWORD}
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SQLSERVER_SA_PASSWORD}", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  mongo:
+    image: mongo:6
+    container_name: venice-mongo
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: venice-rabbitmq
+    env_file:
+      - .env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    volumes:
+      - ./rabbitmq/init/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+
+  redis:
+    image: redis:7
+    container_name: venice-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mongo_data:
