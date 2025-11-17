@@ -1,4 +1,4 @@
-# Venice Orders - Teste Técnico (Completo)
+# Venice Orders - Teste Técnico
 
 ## Visão Geral
 
